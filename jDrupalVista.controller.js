@@ -3,9 +3,8 @@ app.controller('jobsCtrl', ['$scope', 'drupal', function($scope, drupal) {
    var path = '/lista-ofertas.json'; // The Drupal path to the Views JSON page display.
     drupal.viewsLoad(path).then(function (view) {
       var results = view.getResults();
-      $scope.title = results;
       $scope.$apply(function () {
-        $scope.title = results;
+        $scope.titles = results;
       });
     });
 }]);
