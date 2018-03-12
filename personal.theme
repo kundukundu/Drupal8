@@ -1,0 +1,54 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the porto theme.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\Component\Serialization\Json;
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+ 
+global $base_url;
+$theme_root = $base_url.'/'.drupal_get_path('theme','personal');
+
+/**
+ * Use custom label for the language
+ *
+ * @param $variables
+ */
+ 
+function personal_preprocess_links__language_block(&$variables) {
+    $variables['links']['en']['link']['#title'] = 'ENG';
+    $variables['links']['es']['link']['#title'] = 'ESP';
+    $variables['links']['ca']['link']['#title'] = 'CAT';
+}
+
+/**
+ * Use custom label for the language switcher
+ *
+ * @param $variables
+ */
+ 
+function personal_preprocess_links__language_block(&$variables) {
+    $variables['links']['en']['link']['#title'] = 'ENG';
+    $variables['links']['es']['link']['#title'] = 'ESP';
+    $variables['links']['ca']['link']['#title'] = 'CAT';
+}
+
+#/**
+# * Use language code for the language switcher
+# *
+# * @param $variables
+# */
+#function personal_preprocess_links__language_block(&$variables) {
+#  foreach ($variables['links'] as $i => $link) {
+#    /** @var \Drupal\language\Entity\ConfigurableLanguage $linkLanguage */
+#    $linkLanguage = $link['link']['#options']['language'];
+#    $variables['links'][$i]['link']['#title'] = $linkLanguage->get('id');
+#  }
+#}
