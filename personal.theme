@@ -12,28 +12,17 @@ use Drupal\Component\Serialization\Json;
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
  */
- 
+
 global $base_url;
 $theme_root = $base_url.'/'.drupal_get_path('theme','personal');
 
-/**
- * Use custom label for the language
- *
- * @param $variables
- */
- 
-function personal_preprocess_links__language_block(&$variables) {
-    $variables['links']['en']['link']['#title'] = 'ENG';
-    $variables['links']['es']['link']['#title'] = 'ESP';
-    $variables['links']['ca']['link']['#title'] = 'CAT';
-}
 
 /**
  * Use custom label for the language switcher
  *
  * @param $variables
  */
- 
+
 function personal_preprocess_links__language_block(&$variables) {
     $variables['links']['en']['link']['#title'] = 'ENG';
     $variables['links']['es']['link']['#title'] = 'ESP';
@@ -52,3 +41,31 @@ function personal_preprocess_links__language_block(&$variables) {
 #    $variables['links'][$i]['link']['#title'] = $linkLanguage->get('id');
 #  }
 #}
+
+/**
+ * Alter attachments (typically assets) to a page before it is rendered.
+ *
+ * Use this hook when you want to remove or alter attachments on the page, or
+ * add attachments to the page that depend on another module's attachments (this
+ * hook runs after hook_page_attachments().
+ *
+ * If you try to add anything but #attached and #cache to the array, an
+ * exception is thrown.
+ *
+ * @param array &$attachments
+ *   Array of all attachments provided by hook_page_attachments() implementations.
+ *
+ * @see hook_page_attachments()
+ */
+function personal_page_attachments_alter(&$page) {
+  $page['#attached']['library'][] = 'personal/global-styling';
+
+  $form = \Drupal::formBuilder()->getForm(Drupal\my_module\Form\MyModuleForm::class);
+  if(null != $form){
+    /* Create a form as HTML */
+    $form_rendered = \Drupal::service('renderer')->renderPlain($form);
+    $page['#attached']['drupalSettings']['personal']['globalStyling']['form'] = $form_rendered;
+  }
+
+
+}
